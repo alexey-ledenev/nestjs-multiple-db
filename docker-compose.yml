@@ -1,0 +1,54 @@
+version: '3.4'
+
+services:
+  server:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    command: npm run start:dev
+    environment:
+      - NODE_ENV=development
+      - APP_PORT=3000
+      - DB_ADMIN_HOST=db-admin
+      - DB_ADMIN_PORT=3306
+      - DB_ADMIN_USER=dev
+      - DB_ADMIN_PASSWORD=dev
+      - DB_ADMIN_NAME=dev
+      - DB_HOT_HOST=db-hot
+      - DB_HOT_PORT=3306
+      - DB_HOT_USER=dev
+      - DB_HOT_PASSWORD=dev
+      - DB_HOT_NAME=dev
+    volumes:
+      - .:/app
+      - /app/node_modules/
+    depends_on:
+      - db-admin
+      - db-hot
+    ports:
+      - 3000:3000
+      - 9229:9229
+
+  db-admin:
+    image: mariadb:10
+    environment:
+      - MYSQL_DATABASE=dev
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=dev
+      - MYSQL_ROOT_PASSWORD=devroot
+    ports:
+      - 3306:3306
+    volumes:
+      - ./.data/db-admin:/var/lib/mysql
+
+  db-hot:
+    image: mariadb:10
+    environment:
+      - MYSQL_DATABASE=dev
+      - MYSQL_USER=dev
+      - MYSQL_PASSWORD=dev
+      - MYSQL_ROOT_PASSWORD=devroot
+    ports:
+      - 3307:3306
+    volumes:
+      - ./.data/db-hot:/var/lib/mysql

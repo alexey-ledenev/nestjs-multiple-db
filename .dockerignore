@@ -1,0 +1,13 @@
+node_modules
+.cache
+.ssh
+.vscode
+public
+.history
+.git
+.github
+coverage
+docker-compose.yml
+.Dockerfile
+.Dockerfile.dev
+README.md
